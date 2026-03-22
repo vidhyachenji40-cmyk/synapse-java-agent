@@ -1,0 +1,3 @@
+Use Year/Month partitioning for datasets exceeding 5TB.
+- Always implement 'ROUND_ROBIN' distribution for initial staging tables.
+- Ensure all Synapse scripts use the ABFSS storage driver for performance.

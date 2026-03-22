@@ -1,19 +1,21 @@
 package com.vidhya.ai;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import java.sql.*;
 
 @RestController
 public class AgentController {
 
-    @GetMapping("/run-agent")
-    public String runAgent() {
-        try (Connection conn = DriverManager.getConnection("jdbc:h2:./synapse_db", "sa", "")) {
-            // This is where your Agent logic lives
-            return "🚀 AI Agent Triggered! Scanning Azure Synapse Metadata...";
-        } catch (Exception e) {
-            return "❌ Error: " + e.getMessage();
-        }
+    private final ConsultantService consultantService;
+
+    // Standard Constructor Injection
+    public AgentController(ConsultantService consultantService) {
+        this.consultantService = consultantService;
+    }
+
+    @GetMapping("/ask-consultant")
+    public String ask(@RequestParam(value = "q") String q) throws Exception {
+        return consultantService.getAdvice(q);
     }
 }

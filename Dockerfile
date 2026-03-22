@@ -1,14 +1,14 @@
-# Use Java 21 (Matching your project)
-FROM eclipse-temurin:21-jdk-jammy
+# Step 1: Build the application
+FROM maven:3.8.6-eclipse-temurin-17 AS build
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Set the folder inside the container
-WORKDIR /app
+# Step 2: Run the application
+FROM eclipse-temurin:17-jre-alpine
+COPY --from=build /target/*.jar app.jar
 
-# Copy the built JAR file into the container
-COPY target/*.jar app.jar
-
-# Run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar"]
-
-# Expose the web port
+# Expose the port
 EXPOSE 8080
+
+# Run the jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]

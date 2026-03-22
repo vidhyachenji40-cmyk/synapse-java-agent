@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Synapse AI Agent</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; background: #f4f7f6; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 100px; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #0078d4; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #005a9e; }
+        #response { margin-top: 20px; white-space: pre-wrap; background: #eee; padding: 15px; border-radius: 4px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Synapse AI Insight Agent</h1>
+        <p>Ask our expert for Azure Synapse optimization tips (e.g., partitioning 5TB tables).</p>
+        <textarea id="question" placeholder="Enter your data engineering question..."></textarea>
+        <button onclick="askAI()">Consult Expert</button>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        async function askAI() {
+            const q = document.getElementById('question').value;
+            const resDiv = document.getElementById('response');
+            resDiv.style.display = 'block';
+            resDiv.innerText = 'Consulting Claude...';
+
+            try {
+                const response = await fetch(`/ask-consultant?q=${encodeURIComponent(q)}`);
+                const text = await response.text();
+                resDiv.innerText = text;
+            } catch (err) {
+                resDiv.innerText = 'Error: ' + err.message;
+            }
+        }
+    </script>
+</body>
+</html>

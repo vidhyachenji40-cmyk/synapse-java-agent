@@ -1,41 +1,40 @@
 # Synapse AI Insight Agent 🚀
 
-An enterprise-grade **Java Spring Boot** microservice designed to orchestrate and optimize **Azure Synapse Analytics** environments. This agent automatically scans data lake metadata to generate high-performance Scala/Spark scripts for massive data partitioning.
-
----
+An enterprise-grade **Java Spring Boot** microservice designed to provide architectural guidance and optimization strategies for **Azure Synapse Analytics**. This agent is powered by **Anthropic Claude 4.5** and is specifically tuned for high-scale data engineering (5TB+ datasets).
 
 ## 🏗️ Technical Stack
-* **Backend:** Java 17, Spring Boot 3.x
-* **Database:** H2 In-Memory (for metadata simulation)
-* **DevOps:** Docker, GitHub Actions (CI/CD)
-* **Cloud Logic:** Azure Synapse, Scala/Spark generation
+- **AI Model:** Anthropic Claude Haiku 4.5 (`claude-haiku-4-5-20251001`)
+- **Backend:** Java 17, Spring Boot 3.x, Spring AI
+- **Frontend:** Responsive HTML5/JS Dashboard
+- **Infrastructure:** Docker (Eclipse Temurin JRE 17)
 
-## 🚀 Features
-- **Metadata Scanning:** Automatically identifies table structures and row counts via JDBC.
-- **AI-Driven Logic:** Generates optimized `OptimizeSynapse.scala` scripts specifically tuned for 5TB+ datasets.
-- **Containerized:** Fully Dockerized for deployment to Azure Kubernetes Service (AKS).
-
----
-
-## 🗺️ Project Analogy: The Walmart Personal Shopper
-
-To understand how these files link together, imagine a **Walmart** the size of a city. This project is the **Personal Shopper** that finds exactly what you need.
+## 🗺️ Project Analogy: The Walmart Architectural Consultant
+Imagine a **Walmart** the size of a city. Instead of just finding a box of cereal, you are building a new wing of the store to handle 5 million customers a day. You need a **Senior Architect** to tell you where to put the aisles so people don't get stuck.
 
 | File Name | The Walmart Analogy | Technical Role |
 | :--- | :--- | :--- |
-| **SynapseApplication.java** | **The Store Opening:** The manager turning on the lights and opening the front doors. | Entry point for the Spring Boot engine. |
-| **AgentController.java** | **The Customer Service Desk:** Where you stand and say, "I need a data optimization plan!" | REST API endpoint (`/run-agent`) that accepts requests. |
-| **SynapseAgent.java** | **The Personal Shopper:** The expert who knows the aisles and gathers the items. | The Service layer containing the core logic. |
-| **synapse_db.mv.db** | **The Store Inventory:** The actual shelves holding all the product data. | H2 Database storing the metadata to be scanned. |
-| **OptimizeSynapse.scala** | **The Delivery Receipt:** The custom plan the shopper hands back to you for your 5TB order. | The generated output script for Azure Synapse. |
-| **pom.xml** | **The Shopping List:** A list of tools (scanner, cart, badge) the shopper needs to work. | Maven file managing all project dependencies. |
-| **Dockerfile** | **The Delivery Truck:** A standard container that lets the shopper work in any city (cloud). | Instructions to package the app for Azure Kubernetes (AKS). |
+| **SynapseApplication.java** | **The Store Opening** | The manager turning on the lights and opening the front doors. |
+| **AgentController.java** | **The Consultant's Desk** | The service window where you submit your complex engineering questions. |
+| **ConsultantService.java** | **The Master Architect** | The expert (Claude 4.5) who designs the blueprints for your 5TB data "aisles." |
+| **synapse-expert-tips.txt** | **The Building Codes** | The internal handbook the architect uses to ensure everything is "to code." |
+| **Dockerfile** | **The Prefab Office** | A standard shipping container that lets the architect work at any Walmart location (Cloud). |
 
----
+## 🌟 Key Features
+- **Partitioning Strategies:** Expert advice on `RANGE LEFT/RIGHT` for multi-terabyte tables.
+- **Materialized Views:** Automated best practices for distribution (HASH vs. ROUND_ROBIN).
+- **T-SQL Generation:** Ready-to-use snippets for Clustered Columnstore Indexing (CCI).
+- **Secure Architecture:** Built with environment-based secret management for API keys.
 
-## 🛠️ Getting Started
+## 🚀 Getting Started
 
-### Run with Docker
+### 1. Prerequisites
+- Java 17 or Docker installed.
+- An Anthropic API Key exported to your environment (`ANTHROPIC_API_KEY`).
+
+### 2. Run with Docker
 ```bash
+# Build the image
 docker build -t synapse-ai-agent .
-docker run -p 8080:8080 synapse-ai-agent
+
+# Run the container
+docker run -p 8080:8080 -e SPRING_AI_ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY synapse-ai-agent

@@ -6,23 +6,25 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class AgentEvaluationTest {
+public class AgentEvaluationTest {
 
     @Autowired
     private ConsultantService consultantService;
 
     @Test
-    void testAIConfidenceThreshold() throws Exception {
-        // 1. Ask a highly technical Synapse question
-        String query = "How do I optimize a 5TB table with Hash Distribution?";
-        String response = consultantService.getAdvice(query);
+    public void testAIConfidenceThreshold() {
+        String response = consultantService.askConsultant("How do I optimize Synapse?");
+        
+        // Find the "Confidence Score:" text and get the number after it
+        double confidenceScore = 0.0;
+        if (response.contains("Confidence Score:")) {
+            String scorePart = response.split("Confidence Score:")[1].trim();
+            // Remove any trailing stars or characters
+            scorePart = scorePart.replaceAll("[^0-9.]", "");
+            confidenceScore = Double.parseDouble(scorePart);
+        }
 
-        // 2. Extract the score (e.g., 0.95) from the AI's response text
-        String scoreTicker = "Technical Confidence Score:";
-        double score = Double.parseDouble(response.split(scoreTicker)[1].trim().replace("*", ""));
-
-        // 3. Automation Gate: Fail the test if confidence is under 80%
-        System.out.println("EVALUATION RESULT: AI Confidence is " + score);
-        assertTrue(score >= 0.8, "AI Confidence is too low for a production environment!");
+        System.out.println("AI Evaluation - Detected Confidence: " + confidenceScore);
+        assertTrue(confidenceScore >= 0.8, "AI Confidence is too low: " + confidenceScore);
     }
 }

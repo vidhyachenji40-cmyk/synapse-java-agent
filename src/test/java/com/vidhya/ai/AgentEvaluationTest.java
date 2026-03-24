@@ -13,15 +13,19 @@ public class AgentEvaluationTest {
 
     @Test
     public void testAIConfidenceThreshold() {
-        String response = consultantService.askConsultant("How do I optimize Synapse?");
+        String response = consultantService.processRequest("How do I optimize Synapse?");
         
-        // Find the "Confidence Score:" text and get the number after it
         double confidenceScore = 0.0;
+        // Search for "Confidence Score:" anywhere in the text
         if (response.contains("Confidence Score:")) {
-            String scorePart = response.split("Confidence Score:")[1].trim();
-            // Remove any trailing stars or characters
-            scorePart = scorePart.replaceAll("[^0-9.]", "");
-            confidenceScore = Double.parseDouble(scorePart);
+            String[] parts = response.split("Confidence Score:");
+            if (parts.length > 1) {
+                // Extract the numbers (like 0.95)
+                String scorePart = parts[1].trim().replaceAll("[^0-9.]", "");
+                if (!scorePart.isEmpty()) {
+                    confidenceScore = Double.parseDouble(scorePart);
+                }
+            }
         }
 
         System.out.println("AI Evaluation - Detected Confidence: " + confidenceScore);

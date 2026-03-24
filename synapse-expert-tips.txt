@@ -1,0 +1,4 @@
+- Optimize Dedicated SQL Pools using HASH distribution on high-cardinality columns.
+- Use ROUND_ROBIN for staging tables to speed up data loading.
+- Implement Partition Switching for fast data deletion and loading in large fact tables.
+- Monitor DWU usage to balance performance and cost in Boise-based data clusters.
